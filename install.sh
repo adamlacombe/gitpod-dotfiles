@@ -1,4 +1,9 @@
 #!/bin/bash
+ 
+cat >.wakatime.cfg <<EOL
+[settings]
+api_key = $WAKATIME_API_KEY
+EOL
 
 mkdir -p  /workspace/.vscode-remote/data/User/globalStorage/cweijan.vscode-mysql-client2
 cat >/workspace/.vscode-remote/data/User/globalStorage/cweijan.vscode-mysql-client2/config.json <<EOL
