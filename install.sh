@@ -25,7 +25,7 @@ if [ -n "${SSH_PRIVATE_KEY_PERSONAL_BITBUCKET:-}" ]; then
 
   ssh-add "${HOME}/.ssh/bitbucket"
 
-  cat >.ssh/config <<EOL
+  cat >"${HOME}/.ssh/config" <<EOL
   Host bitbucket.org
     AddKeysToAgent yes
     IdentityFile ~/.ssh/bitbucket
