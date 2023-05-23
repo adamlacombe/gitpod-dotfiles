@@ -6,6 +6,7 @@ api_key = $WAKATIME_API_KEY
 EOL
 
 if [ -n "${SSH_PRIVATE_KEY_PERSONAL_BITBUCKET:-}" ]; then
+  mkdir -p "${HOME}/.ssh"
   echo "SSH_PRIVATE_KEY_PERSONAL_BITBUCKET envvar found"
 
   echo "${SSH_PRIVATE_KEY_PERSONAL_BITBUCKET}" | base64 -d > "${HOME}/.ssh/bitbucket"
@@ -19,15 +20,19 @@ if [ -n "${SSH_PUBLIC_KEY_PERSONAL_BITBUCKET:-}" ]; then
   chmod 600 "${HOME}/.ssh/bitbucket.pub"
 fi
 
-eval $(ssh-agent)
+if [ -n "${SSH_PRIVATE_KEY_PERSONAL_BITBUCKET:-}" ]; then
+  eval $(ssh-agent)
 
-ssh-add "${HOME}/.ssh/bitbucket"
+  ssh-add "${HOME}/.ssh/bitbucket"
 
-cat >.ssh/config <<EOL
-Host bitbucket.org
-  AddKeysToAgent yes
-  IdentityFile ~/.ssh/bitbucket
-EOL
+  cat >.ssh/config <<EOL
+  Host bitbucket.org
+    AddKeysToAgent yes
+    IdentityFile ~/.ssh/bitbucket
+  EOL
+  
+  ssh-keyscan -H bitbucket.org >> "${HOME}/.ssh/known_hosts"
+fi
 
 mkdir -p  /workspace/.vscode-remote/data/User/globalStorage/cweijan.vscode-mysql-client2
 cat >/workspace/.vscode-remote/data/User/globalStorage/cweijan.vscode-mysql-client2/config.json <<EOL
