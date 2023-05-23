@@ -29,7 +29,7 @@ if [ -n "${SSH_PRIVATE_KEY_PERSONAL_BITBUCKET:-}" ]; then
   Host bitbucket.org
     AddKeysToAgent yes
     IdentityFile ~/.ssh/bitbucket
-  EOL
+EOL
   
   ssh-keyscan -H bitbucket.org >> "${HOME}/.ssh/known_hosts"
 fi
